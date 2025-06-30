@@ -1,7 +1,7 @@
-import Dashboard from "@/components/ui/screens/Dashboard";
 import { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import SplashScreen from "@/components/ui/screens/SplashScreen";
+import StackNavigator from "../navigation/stack-navigation/StackNavigation";
 
 export default function HomeScreen() {
   const [isLoading, setIsLoading] = useState(true);
@@ -10,11 +10,11 @@ export default function HomeScreen() {
       {isLoading ? (
         <SplashScreen
           onFinish={() => {
-            setIsLoading(false); //false
+            setIsLoading(false);
           }}
         />
       ) : (
-        <Dashboard />
+        <StackNavigator />
       )}
     </View>
   );
