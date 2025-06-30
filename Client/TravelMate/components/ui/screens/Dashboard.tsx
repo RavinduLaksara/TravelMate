@@ -1,9 +1,10 @@
-import { Text, StyleSheet, View } from "react-native";
+import PrimaryButton from "@/components/share/PrimaryButton";
+import { StyleSheet, View } from "react-native";
 
 export default function Dashboard() {
   return (
     <View style={styles.container}>
-      <Text>Home Page</Text>
+      {PrimaryButton("Login", () => console.log("Press"))}
     </View>
   );
 }
