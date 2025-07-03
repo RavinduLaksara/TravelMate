@@ -1,12 +1,12 @@
 import HomeActivitiesScreen from "@/components/ui/screens/home/HomeActivitiesScreen";
 import HomeCartScreen from "@/components/ui/screens/home/HomeCartScreen";
 import HomePageScreen from "@/components/ui/screens/home/HomePageScreen";
-import HomeProductsScreen from "@/components/ui/screens/home/HomeProductsScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/constants/colors";
-import { Image, Touchable, TouchableOpacity } from "react-native";
-const logo = require("../../../assets/images/logo/logo.png");
+import { Image, TouchableOpacity, Text } from "react-native";
+import ProductTopTabNavigator from "./ProductTopTabNavigator";
+// import { HeaderTitle } from "@react-navigation/elements";
 
 const Tab = createBottomTabNavigator();
 
@@ -38,11 +38,16 @@ export default function HomeTabNavigator({ navigation }: any) {
         component={HomePageScreen}
         options={{
           headerLeft: () => (
-            <Image
-              source={logo}
-              resizeMode={"contain"}
-              style={{ width: 130, height: 80, marginLeft: -15 }}
-            />
+            <Text
+              style={{
+                fontSize: 22,
+                fontWeight: "600",
+                color: COLORS.white,
+                marginLeft: 20,
+              }}
+            >
+              TravelMate
+            </Text>
           ),
           headerTitle: "",
           headerRight: () => (
@@ -53,17 +58,71 @@ export default function HomeTabNavigator({ navigation }: any) {
             >
               <Ionicons
                 name="person-circle-outline"
-                color={COLORS.primary}
+                color={COLORS.white}
                 size={30}
                 style={{ marginRight: 20 }}
               />
             </TouchableOpacity>
           ),
+          headerBackground: () => (
+            <Image
+              style={{ flex: 1, backgroundColor: COLORS.dark }}
+              resizeMode="cover"
+            />
+          ),
         }}
       />
-      <Tab.Screen name="Products" component={HomeProductsScreen} />
-      <Tab.Screen name="Cart" component={HomeCartScreen} />
-      <Tab.Screen name="Activities" component={HomeActivitiesScreen} />
+      <Tab.Screen
+        options={{
+          headerTitleStyle: {
+            fontSize: 22,
+            fontWeight: 600,
+            color: COLORS.white,
+          },
+          headerBackground: () => (
+            <Image
+              style={{ flex: 1, backgroundColor: COLORS.dark }}
+              resizeMode="cover"
+            />
+          ),
+        }}
+        name="Products"
+        component={ProductTopTabNavigator}
+      />
+      <Tab.Screen
+        options={{
+          headerTitleStyle: {
+            fontSize: 22,
+            fontWeight: 600,
+            color: COLORS.white,
+          },
+          headerBackground: () => (
+            <Image
+              style={{ flex: 1, backgroundColor: COLORS.dark }}
+              resizeMode="cover"
+            />
+          ),
+        }}
+        name="Cart"
+        component={HomeCartScreen}
+      />
+      <Tab.Screen
+        options={{
+          headerTitleStyle: {
+            fontSize: 22,
+            fontWeight: 600,
+            color: COLORS.white,
+          },
+          headerBackground: () => (
+            <Image
+              style={{ flex: 1, backgroundColor: COLORS.dark }}
+              resizeMode="cover"
+            />
+          ),
+        }}
+        name="Activities"
+        component={HomeActivitiesScreen}
+      />
     </Tab.Navigator>
   );
 }
