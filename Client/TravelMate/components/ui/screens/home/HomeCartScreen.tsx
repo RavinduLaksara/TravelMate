@@ -1,17 +1,25 @@
+import CartGridViewWidget from "@/components/share/CartGridViewWidget";
+import { COLORS } from "@/constants/colors";
 import { Text, StyleSheet, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function HomeCartScreen() {
   return (
-    <View style={styles.container}>
-      <Text>Home Cart Screen</Text>
-    </View>
+    <ScrollView style={styles.container}>
+      <CartGridViewWidget />
+      <CartGridViewWidget />
+      <CartGridViewWidget />
+      <CartGridViewWidget />
+      <CartGridViewWidget />
+      <CartGridViewWidget />
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: COLORS.lightGray,
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    gap: 10,
   },
 });

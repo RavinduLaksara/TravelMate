@@ -5,7 +5,12 @@ import { Text, TouchableOpacity, View, Image, StyleSheet } from "react-native";
 export default function ProductGridViewWidget({ navigation }: any) {
   const imageUri = require("../../assets/images/baackpack_banner.jpg");
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => {
+        navigation.navigate("ProductDetails");
+      }}
+    >
       <TouchableOpacity style={styles.instock}>
         <Text
           style={{
@@ -37,13 +42,18 @@ export default function ProductGridViewWidget({ navigation }: any) {
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 5,
+    borderRadius: 7,
     padding: 15,
     backgroundColor: COLORS.white,
     width: 180,
     margin: 8,
     justifyContent: "space-between",
     position: "relative",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 4,
   },
   imageWrapper: {
     alignItems: "center",

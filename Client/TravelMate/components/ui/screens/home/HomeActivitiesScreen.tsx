@@ -1,17 +1,26 @@
-import { Text, StyleSheet, View } from "react-native";
+import ActiityCartWidget from "@/components/share/ActivityCardWidget";
+import { COLORS } from "@/constants/colors";
+import { StyleSheet } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function HomeActivitiesScreen() {
   return (
-    <View style={styles.container}>
-      <Text>Home Activities Screen</Text>
-    </View>
+    <ScrollView style={styles.container}>
+      <ActiityCartWidget />
+      <ActiityCartWidget />
+      <ActiityCartWidget />
+      <ActiityCartWidget />
+      <ActiityCartWidget />
+      <ActiityCartWidget />
+      <ActiityCartWidget />
+      <ActiityCartWidget />
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: COLORS.lightGray,
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
   },
 });

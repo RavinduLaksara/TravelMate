@@ -66,10 +66,10 @@ export default function ProductBuyScreen({ navigation }: any) {
         showsHorizontalScrollIndicator={false}
         style={{ paddingRight: 16 }}
       >
-        <ProductGridViewWidget />
-        <ProductGridViewWidget />
-        <ProductGridViewWidget />
-        <ProductGridViewWidget />
+        <ProductGridViewWidget navigation={navigation} />
+        <ProductGridViewWidget navigation={navigation} />
+        <ProductGridViewWidget navigation={navigation} />
+        <ProductGridViewWidget navigation={navigation} />
       </ScrollView>
 
       {/* Recommended section*/}
@@ -85,10 +85,10 @@ export default function ProductBuyScreen({ navigation }: any) {
           showsHorizontalScrollIndicator={false}
           style={{ paddingRight: 16 }}
         >
-          <ProductGridViewWidget />
-          <ProductGridViewWidget />
-          <ProductGridViewWidget />
-          <ProductGridViewWidget />
+          <ProductGridViewWidget navigation={navigation} />
+          <ProductGridViewWidget navigation={navigation} />
+          <ProductGridViewWidget navigation={navigation} />
+          <ProductGridViewWidget navigation={navigation} />
         </ScrollView>
       </View>
 
@@ -105,10 +105,10 @@ export default function ProductBuyScreen({ navigation }: any) {
           showsHorizontalScrollIndicator={false}
           style={{ paddingRight: 16 }}
         >
-          <ProductGridViewWidget />
-          <ProductGridViewWidget />
-          <ProductGridViewWidget />
-          <ProductGridViewWidget />
+          <ProductGridViewWidget navigation={navigation} />
+          <ProductGridViewWidget navigation={navigation} />
+          <ProductGridViewWidget navigation={navigation} />
+          <ProductGridViewWidget navigation={navigation} />
         </ScrollView>
       </View>
 

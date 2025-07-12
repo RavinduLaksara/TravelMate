@@ -3,7 +3,6 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Searchbar } from "react-native-paper";
 import { useState } from "react";
 import { COLORS } from "@/constants/colors";
-import ProductGridViewWidget from "@/components/share/ProductGridViewWiget";
 import { FONTS } from "@/constants/fonts";
 import ProductRentGridWidget from "@/components/share/ProductRentGridWidget";
 
@@ -65,10 +64,10 @@ export default function ProductRentScreen({ navigation }: any) {
         showsHorizontalScrollIndicator={false}
         style={{ paddingRight: 16 }}
       >
-        <ProductRentGridWidget />
-        <ProductRentGridWidget />
-        <ProductRentGridWidget />
-        <ProductRentGridWidget />
+        <ProductRentGridWidget navigation={navigation} />
+        <ProductRentGridWidget navigation={navigation} />
+        <ProductRentGridWidget navigation={navigation} />
+        <ProductRentGridWidget navigation={navigation} />
       </ScrollView>
 
       {/* Recommended section*/}
@@ -84,10 +83,10 @@ export default function ProductRentScreen({ navigation }: any) {
           showsHorizontalScrollIndicator={false}
           style={{ paddingRight: 16 }}
         >
-          <ProductRentGridWidget />
-          <ProductRentGridWidget />
-          <ProductRentGridWidget />
-          <ProductRentGridWidget />
+          <ProductRentGridWidget navigation={navigation} />
+          <ProductRentGridWidget navigation={navigation} />
+          <ProductRentGridWidget navigation={navigation} />
+          <ProductRentGridWidget navigation={navigation} />
         </ScrollView>
       </View>
 
@@ -104,10 +103,10 @@ export default function ProductRentScreen({ navigation }: any) {
           showsHorizontalScrollIndicator={false}
           style={{ paddingRight: 16 }}
         >
-          <ProductRentGridWidget />
-          <ProductRentGridWidget />
-          <ProductRentGridWidget />
-          <ProductRentGridWidget />
+          <ProductRentGridWidget navigation={navigation} />
+          <ProductRentGridWidget navigation={navigation} />
+          <ProductRentGridWidget navigation={navigation} />
+          <ProductRentGridWidget navigation={navigation} />
         </ScrollView>
       </View>
 
