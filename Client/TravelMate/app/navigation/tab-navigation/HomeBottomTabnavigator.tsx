@@ -35,7 +35,7 @@ export default function HomeTabNavigator({ navigation }: any) {
     >
       <Tab.Screen
         name="Home"
-        component={HomePageScreen}
+        component={ProductTopTabNavigator}
         options={{
           headerLeft: () => (
             <Text

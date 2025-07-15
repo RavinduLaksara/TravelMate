@@ -3,8 +3,49 @@ import { TextInput } from "react-native-paper";
 import { COLORS } from "@/constants/colors";
 import { useState } from "react";
 import PrimaryButton from "@/components/share/PrimaryButton";
+import {
+  GoogleSignin,
+  isSuccessResponse,
+  isErrorWithCode,
+  statusCodes,
+} from "@react-native-google-signin/google-signin";
 
 export default function LoginScreen({ navigation }: any) {
+  // For google sign in
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const handleGoogleSignIn = async () => {
+    try {
+      setIsSubmitting(true);
+      await GoogleSignin.hasPlayServices();
+      const response = await GoogleSignin.signIn();
+      if (isSuccessResponse(response)) {
+        const { idToken, user } = response.data;
+        const { name, email, photo } = user;
+        // add navigation
+        console.log(user);
+        console.log(idToken);
+      } else {
+        console.log("Google signin was cancelled");
+      }
+      setIsSubmitting(false);
+    } catch (error) {
+      if (isErrorWithCode(error)) {
+        switch (error.code) {
+          case statusCodes.IN_PROGRESS:
+            console.log("GOogle sign in is in progress");
+            break;
+          case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+            console.log("Play services are not available");
+            break;
+          default:
+            console.log(error.code);
+        }
+      } else {
+        console.log("An error occurred");
+      }
+      setIsSubmitting(false);
+    }
+  };
   const logo = require("../../../../assets/images/logo/logo.png");
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
@@ -98,9 +139,8 @@ export default function LoginScreen({ navigation }: any) {
         </Text>
         <PrimaryButton
           text="Sign in With Google"
-          onPress={() => {
-            console.log("Login");
-          }}
+          onPress={handleGoogleSignIn}
+          // disabled={isSubmitting}
         />
         <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
           <Text
