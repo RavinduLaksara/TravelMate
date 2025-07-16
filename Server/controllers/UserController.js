@@ -1,6 +1,11 @@
 import User from "../models/UserSchema.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import sgMail from "@sendgrid/mail";
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+// generate otp
+const generateOtp = () => Math.floor(100000 + Math.random() * 900000);
 
 // sign up
 export async function createUser(req, res) {
@@ -24,8 +29,23 @@ export async function createUser(req, res) {
     const salt = await bcrypt.genSalt(10);
     newUserData.password = await bcrypt.hash(newUserData.password, salt);
 
+    newUserData.otp = generateOtp();
     // Create new user
     const newUser = new User(newUserData);
+
+    // Create otp mail
+    const msg = {
+      to: newUserData.email,
+      from: process.env.SENDGRID_VERIFIED_EMAIL,
+      templateId: "d-c769a40955df4231b1192183544b7b9f",
+      dynamic_template_data: { otp: newUserData.otp },
+    };
+
+    console.log(process.env.SENDGRID_API_KEY);
+    console.log(process.env.SENDGRID_VERIFIED_EMAIL);
+
+    await sgMail.send(msg);
+
     // Add user
     await newUser.save();
     res.status(201).json({ message: "New User Created" });
@@ -86,3 +106,4 @@ export function isAdmin(req) {
 }
 
 // user - dinukarandul@gmail.com - dinuka123
+// admin - admin1@gmail.com - admin123
