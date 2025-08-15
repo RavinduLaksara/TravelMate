@@ -11,15 +11,14 @@ import {
   Poppins_400Regular,
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 export default function HomeScreen() {
   useEffect(() => {
-    GoogleSignin.configure({
-      webClientId:
-        "617455414576-61tg0qs9egu5g5j2c4hfkechsebml2j1.apps.googleusercontent.com",
-      profileImageSize: 150,
-    });
+    // GoogleSignin.configure({
+    //   webClientId:
+    //     "617455414576-61tg0qs9egu5g5j2c4hfkechsebml2j1.apps.googleusercontent.com",
+    //   profileImageSize: 150,
+    // });
   }, []);
   const [isLoading, setIsLoading] = useState(true);
   const [fontsLoaded] = useFonts({

@@ -18,10 +18,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "customer",
   },
-  isBlock: {
-    type: Boolean,
-    default: false,
-  },
   avator: {
     type: String,
     default: "https://cdn-icons-png.flaticon.com/512/3607/3607444.png",
@@ -31,6 +27,10 @@ const userSchema = new mongoose.Schema({
   },
   address: {
     type: String,
+  },
+  isActive: {
+    type: Boolean,
+    default: false,
   },
 });
 
