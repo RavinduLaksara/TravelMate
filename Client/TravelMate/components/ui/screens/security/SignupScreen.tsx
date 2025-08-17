@@ -1,9 +1,19 @@
-import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { TextInput } from "react-native-paper";
 import { COLORS } from "@/constants/colors";
 import { useState } from "react";
 import PrimaryButton from "@/components/share/PrimaryButton";
 import { ScrollView } from "react-native-gesture-handler";
+import axios from "axios";
+import getBaseUrl from "@/constants/BASEURL";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Signupscreen({ navigation }: any) {
   const logo = require("../../../../assets/images/logo/logo.png");
@@ -11,6 +21,29 @@ export default function Signupscreen({ navigation }: any) {
   const [password, setpassword] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [passwordDisplayState, setPasswordDisplayState] = useState(false);
+
+  // Handle backend
+  const handleSignup = async () => {
+    if (!email || !password || !displayName) {
+      Alert.alert("Error", "All feilds are required!");
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${getBaseUrl()}user/create-user`, {
+        email,
+        password,
+        displayName,
+      });
+
+      if (response.data.token) {
+        await AsyncStorage.setItem("token", response.data.token);
+        navigation.navigate("SignupVerifyEmail");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <ScrollView style={styles.container}>
       <View style={styles.logoWrapper}>
@@ -96,7 +129,7 @@ export default function Signupscreen({ navigation }: any) {
         <PrimaryButton
           text="Sign Up"
           onPress={() => {
-            navigation.navigate("SignupVerifyEmail");
+            handleSignup();
           }}
         />
 

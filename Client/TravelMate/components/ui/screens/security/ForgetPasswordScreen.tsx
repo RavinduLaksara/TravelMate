@@ -1,12 +1,39 @@
-import { Text, View, Image, StyleSheet } from "react-native";
+import { Text, View, Image, StyleSheet, Alert } from "react-native";
 import { TextInput } from "react-native-paper";
 import { COLORS } from "@/constants/colors";
 import { useState } from "react";
 import PrimaryButton from "@/components/share/PrimaryButton";
+import getBaseUrl from "@/constants/BASEURL";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ForgetPasswordScreen({ navigation }: any) {
   const logo = require("../../../../assets/images/logo/logo.png");
   const [email, setEmail] = useState("");
+
+  // Handle Backend
+  const getEmail = async () => {
+    try {
+      if (!email) {
+        Alert.alert("Error", "Email Required!");
+        return;
+      }
+
+      const response = await axios.post(
+        `${getBaseUrl()}user/reset-password/verify-email`,
+        {
+          email,
+        }
+      );
+
+      if (response.data.token) {
+        await AsyncStorage.setItem("token", response.data.token);
+        navigation.navigate("forgetpasswordVerifyEmail");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.logoWrapper}>
@@ -46,7 +73,7 @@ export default function ForgetPasswordScreen({ navigation }: any) {
         <PrimaryButton
           text="Send OTP"
           onPress={() => {
-            navigation.navigate("forgetpasswordVerifyEmail");
+            getEmail();
           }}
         />
       </View>

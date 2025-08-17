@@ -1,17 +1,49 @@
-import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { TextInput } from "react-native-paper";
 import { COLORS } from "@/constants/colors";
 import { useState } from "react";
 import PrimaryButton from "@/components/share/PrimaryButton";
+import axios from "axios";
+import getBaseUrl from "@/constants/BASEURL";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LoginScreen({ navigation }: any) {
   // For google sign in
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // const [isSubmitting, setIsSubmitting] = useState(false);
 
   const logo = require("../../../../assets/images/logo/logo.png");
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
   const [passwordDisplayState, setPasswordDisplayState] = useState(false);
+
+  // handle Backend
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert("Error", "Please fill all feilds");
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${getBaseUrl()}user/login`, {
+        email,
+        password,
+      });
+
+      if (response.data.token) {
+        await AsyncStorage.setItem("token", response.data.token);
+        navigation.navigate("Process");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.logoWrapper}>
@@ -82,12 +114,7 @@ export default function LoginScreen({ navigation }: any) {
           </TouchableOpacity>
         </View>
         {/* Login Button */}
-        <PrimaryButton
-          text="Login"
-          onPress={() => {
-            navigation.navigate("Process");
-          }}
-        />
+        <PrimaryButton text="Login" onPress={() => handleLogin()} />
         {/* Google Login */}
         <Text
           style={{

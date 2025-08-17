@@ -42,11 +42,20 @@ export async function createUser(req, res) {
       dynamic_template_data: { otp: newUserData.otp },
     };
 
+    //   Create jwt
+    const token = jwt.sign(
+      {
+        email: newUserData.email,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "5m" }
+    );
+
     await sgMail.send(msg);
 
     // Add user
     await newUser.save();
-    res.status(201).json({ message: "New User Created" });
+    res.status(201).json({ message: "New User Created", token: token });
   } catch (e) {
     res.status(500).json({ error: e });
   }
@@ -96,7 +105,8 @@ export async function userLogin(req, res) {
 
 export async function verifyOtp(req, res) {
   try {
-    const { email, otp } = req.body;
+    const { otp } = req.body;
+    const email = req.user.email;
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -131,7 +141,7 @@ export async function verifyOtp(req, res) {
 // Reset password - verify email
 export async function verifyEmail(req, res) {
   try {
-    const email = req.body;
+    const { email } = req.body;
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -173,7 +183,8 @@ export async function verifyEmail(req, res) {
 
 export async function resetPasswordVerifyOtp(req, res) {
   try {
-    const { email, otp } = req.body;
+    const { otp } = req.body;
+    const email = req.user.email;
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -192,13 +203,16 @@ export async function resetPasswordVerifyOtp(req, res) {
     );
 
     res.status(200).json({ message: "Email Varified ", token: token });
-  } catch (error) {}
+  } catch (e) {
+    res.status(500).json({ error: e });
+  }
 }
 
 // Reset Password
 export async function resetPassword(req, res) {
   try {
-    const { email, password } = req.body;
+    const { password } = req.body;
+    const email = req.user.email;
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -213,7 +227,7 @@ export async function resetPassword(req, res) {
     await User.findOneAndUpdate({ email }, { password: newPassword });
     res.status(200).json({ message: "Password reset successfullly" });
   } catch (e) {
-    res.status(500).json({ error: e });
+    res.status(500).json({ error: e.message });
   }
 }
 

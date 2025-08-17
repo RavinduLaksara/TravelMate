@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import dotnev from "dotenv";
@@ -9,6 +10,7 @@ import productRouter from "./routes/ProductRouter.js";
 dotnev.config();
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 
 // Database connect
 mongoose
@@ -28,5 +30,5 @@ app.listen(PORT, () => {
 });
 
 // Routes
-app.use("/api/user", userRouter);
-app.use("/api/product", productRouter);
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/product", productRouter);

@@ -1,12 +1,55 @@
-import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { TextInput } from "react-native-paper";
 import { COLORS } from "@/constants/colors";
 import { useState } from "react";
 import PrimaryButton from "@/components/share/PrimaryButton";
+import getBaseUrl from "@/constants/BASEURL";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ForgetPasswordVerifyEmailScreen({ navigation }: any) {
   const logo = require("../../../../assets/images/logo/logo.png");
   const [otp, setOtp] = useState("");
+
+  // Handle Backend
+  const verifyOtp = async () => {
+    try {
+      if (!otp) {
+        Alert.alert("Error", "OTP is Required!");
+        return;
+      }
+
+      const token = await AsyncStorage.getItem("token");
+
+      if (!token) {
+        console.log("Token not found!. ");
+        navigation.navigate("signupVerifyEmail");
+        return;
+      }
+
+      const response = await axios.post(
+        `${getBaseUrl()}user/reset-password/verify-otp`,
+        { otp }, // only otp in body
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // token in headers
+          },
+        }
+      );
+
+      console.log(response);
+      navigation.navigate("ResetPassword");
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.logoWrapper}>
@@ -47,9 +90,7 @@ export default function ForgetPasswordVerifyEmailScreen({ navigation }: any) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.forgotPasswordButton}
-            onPress={() => {
-              navigation.navigate("forgetPassword");
-            }}
+            onPress={() => {}}
           >
             <Text style={styles.forgotPasswordText}>Change Email</Text>
           </TouchableOpacity>
@@ -58,7 +99,7 @@ export default function ForgetPasswordVerifyEmailScreen({ navigation }: any) {
         <PrimaryButton
           text="Verify Email"
           onPress={() => {
-            navigation.navigate("ResetPassword");
+            verifyOtp();
           }}
         />
       </View>

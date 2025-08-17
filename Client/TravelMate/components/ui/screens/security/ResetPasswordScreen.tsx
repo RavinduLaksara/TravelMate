@@ -1,14 +1,55 @@
-import { Text, View, Image, StyleSheet } from "react-native";
+import { Text, View, Image, StyleSheet, Alert } from "react-native";
 import { TextInput } from "react-native-paper";
 import { COLORS } from "@/constants/colors";
 import { useState } from "react";
 import PrimaryButton from "@/components/share/PrimaryButton";
+import getBaseUrl from "@/constants/BASEURL";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ResetPasswordScreen({ navigation }: any) {
   const logo = require("../../../../assets/images/logo/logo.png");
   const [password, setpassword] = useState("");
   const [rePassword, setRePassword] = useState("");
   const [passwordDisplayState, setPasswordDisplayState] = useState(false);
+
+  // Handle Backend
+  const resetPassowrd = async () => {
+    try {
+      if (!password || !rePassword) {
+        Alert.alert("Error", "All feilds are Required!");
+        return;
+      }
+
+      if (password !== rePassword) {
+        Alert.alert("Error", "password and confirm password not match");
+        return;
+      }
+
+      const token = await AsyncStorage.getItem("token");
+
+      if (!token) {
+        console.log("Token not found!. ");
+        navigation.navigate("signupVerifyEmail");
+        return;
+      }
+
+      const response = await axios.post(
+        `${getBaseUrl()}user/reset-password`,
+        { password },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log(response);
+      navigation.navigate("Login");
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.logoWrapper}>
@@ -84,7 +125,7 @@ export default function ResetPasswordScreen({ navigation }: any) {
         <PrimaryButton
           text="Change Password"
           onPress={() => {
-            navigation.navigate("Login");
+            resetPassowrd();
           }}
         />
       </View>

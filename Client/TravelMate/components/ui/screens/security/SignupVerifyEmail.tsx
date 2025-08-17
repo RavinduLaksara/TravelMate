@@ -1,12 +1,55 @@
-import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { TextInput } from "react-native-paper";
 import { COLORS } from "@/constants/colors";
 import { useState } from "react";
 import PrimaryButton from "@/components/share/PrimaryButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import getBaseUrl from "@/constants/BASEURL";
 
 export default function SignupVerifyEmailScreen({ navigation }: any) {
   const logo = require("../../../../assets/images/logo/logo.png");
   const [otp, setOtp] = useState("");
+
+  // handle backend
+  const handleVerify = async () => {
+    try {
+      if (!otp) {
+        Alert.alert("Error", "OTP is Required!");
+        return;
+      }
+
+      const token = await AsyncStorage.getItem("token");
+
+      if (!token) {
+        console.log("Token not found!. ");
+        navigation.navigate("Signup");
+        return;
+      }
+
+      const response = await axios.post(
+        `${getBaseUrl()}user/verify-otp`,
+        { otp }, // only otp in body
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // token in headers
+          },
+        }
+      );
+
+      console.log(response);
+      navigation.navigate("Login");
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.logoWrapper}>
@@ -58,7 +101,7 @@ export default function SignupVerifyEmailScreen({ navigation }: any) {
         <PrimaryButton
           text="Verify Account"
           onPress={() => {
-            navigation.navigate("Login");
+            handleVerify();
           }}
         />
       </View>
