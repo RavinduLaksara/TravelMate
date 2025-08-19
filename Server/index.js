@@ -6,6 +6,7 @@ import dotnev from "dotenv";
 const PORT = process.env.PORT || 3000;
 import userRouter from "./routes/UserRoute.js";
 import productRouter from "./routes/ProductRouter.js";
+import orderRouter from "./routes/OrderRouter.js";
 
 dotnev.config();
 const app = express();
@@ -32,3 +33,4 @@ app.listen(PORT, () => {
 // Routes
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/product", productRouter);
+app.use("/api/v1/order", orderRouter);

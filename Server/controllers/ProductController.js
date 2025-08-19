@@ -41,6 +41,12 @@ export async function getAllProducts(req, res) {
   }
 }
 
+// Get product by id
+export async function getProductById(req, res) {
+  try {
+  } catch (error) {}
+}
+
 // check user is admin
 export function isAdmin(req) {
   if (!req.user) {
